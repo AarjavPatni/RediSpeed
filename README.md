@@ -1,34 +1,59 @@
-[![progress-banner](https://backend.codecrafters.io/progress/redis/063cc441-6f20-43b0-83ae-b089392ddff9)](https://app.codecrafters.io/users/AarjavPatni?r=2qF)
+# RediSpeed
 
-This is a starting point for C++ solutions to the
-["Build Your Own Redis" Challenge](https://codecrafters.io/challenges/redis).
+RediSpeed is a custom implementation of Redis, built from scratch in C++. This project aims to create a high-performance, in-memory data structure store that can be used as a database, cache, and message broker.
 
-In this challenge, you'll build a toy Redis clone that's capable of handling
-basic commands like `PING`, `SET` and `GET`. Along the way we'll learn about
-event loops, the Redis protocol and more.
+**⚠️ Note: RediSpeed is currently a work in progress.**
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Overview
 
-# Passing the first stage
+RediSpeed is an educational project that seeks to recreate the core functionality of Redis. By building my own Redis-like system, I aim to gain a deeper understanding of in-memory databases, concurrent programming, and network protocols.
 
-The entry point for your Redis implementation is in `src/Server.cpp`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+## Getting Started
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
+(Instructions for building and running the project will be added as development progresses)
 
-That's all!
+## Features
 
-# Stage 2 & beyond
+1. **Basic Functionality**
+   - [x] Implement a basic TCP server
+   - [ ] Support response for multiple PINGs
+   - [ ] Implement debugging capabilities (ECHO command)
+   - [ ] Handling concurrent clients
+   - [ ] Create a simple key-value store for strings (GET, SET commands)
+   - [ ] Support for key expiry
 
-Note: This section is for stages 2 and beyond.
+2. **Replication**
+   - [ ] Server info retrieval (INFO command)
+   - [ ] Sending and receiving handshake
+   - [ ] ACK and WAIT command support
 
-1. Ensure you have `cmake` installed locally
-1. Run `./your_program.sh` to run your Redis server, which is implemented in
-   `src/Server.cpp`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+3. **RDB Persistence**
+   - [ ] Reading single keys
+   - [ ] Reading multiple keys
+   - [ ] Reading values with expiry
+
+4. **Transactions**
+   - [ ] Add functionality to increment values (INCR)
+   - [ ] MULTI and EXEC commands to start transactions
+   - [ ] Execution of empty transactions
+   - [ ] Execution of transactions containing mutliple commands
+   - [ ] Failure handling
+   - [ ] Support multiple concurrent transactions
+
+5. **Streams**
+   - [ ] Creation of Redis streams (XADD command)
+   - [ ] Validation and auto-generation of entry IDs
+   - [ ] Static stream query (XRANGE)
+   - [ ] Real-time stream query (XREAD)
+   - [ ] Add blocking support for XREAD
+
+## Contributing
+
+As this is a personal educational project, contributions are not currently being accepted. However, feedback and suggestions are always welcome!
+
+
+## Disclaimer
+
+RediSpeed is not affiliated with or endorsed by Redis Labs. This is an independent, educational project aimed at learning and exploring the concepts behind Redis-like systems.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
