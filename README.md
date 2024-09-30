@@ -15,7 +15,7 @@ RediSpeed is an educational project that seeks to recreate the core functionalit
 ## Features
 
 1. **Basic Functionality**
-   - [x] Implement a basic TCP server
+   - [x] ~~Implement a basic TCP server~~
    - [ ] Support response for multiple PINGs
    - [ ] Implement debugging capabilities (ECHO command)
    - [ ] Handling concurrent clients
