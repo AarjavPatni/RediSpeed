@@ -16,8 +16,6 @@ int main(int argc, char **argv) {
   // You can use print statements as follows for debugging, they'll be visible when running tests.
   std::cout << "Logs from your program will appear here!\n";
 
-  // Uncomment this block to pass the first stage
-  
   int server_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (server_fd < 0) {
    std::cerr << "Failed to create server socket\n";
@@ -56,6 +54,7 @@ int main(int argc, char **argv) {
   for (int i=0; i < 2; i++) {
     int client_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
     send(client_fd, "+PONG\r\n", 7, 0);
+    // ? When pinging 6379 on the browser, why are both loops executed?
   }
   
   std::cout << "Client connected\n";
