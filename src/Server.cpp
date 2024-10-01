@@ -8,17 +8,19 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+using namespace std;
+
 int main(int argc, char **argv) {
-  // Flush after every std::cout / std::cerr
-  std::cout << std::unitbuf;
-  std::cerr << std::unitbuf;
+  // Flush after every cout / cerr
+  cout << unitbuf;
+  cerr << unitbuf;
 
   // You can use print statements as follows for debugging, they'll be visible when running tests.
-  std::cout << "Logs from your program will appear here!\n";
+  cout << "Logs from your program will appear here!\n";
 
   int server_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (server_fd < 0) {
-   std::cerr << "Failed to create server socket\n";
+   cerr << "Failed to create server socket\n";
    return 1;
   }
   
@@ -26,7 +28,7 @@ int main(int argc, char **argv) {
   // ensures that we don't run into 'Address already in use' errors
   int reuse = 1;
   if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
-    std::cerr << "setsockopt failed\n";
+    cerr << "setsockopt failed\n";
     return 1;
   }
   
@@ -36,28 +38,34 @@ int main(int argc, char **argv) {
   server_addr.sin_port = htons(6379);
   
   if (bind(server_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) != 0) {
-    std::cerr << "Failed to bind to port 6379\n";
+    cerr << "Failed to bind to port 6379\n";
     return 1;
   }
   
   int connection_backlog = 5;
   if (listen(server_fd, connection_backlog) != 0) {
-    std::cerr << "listen failed\n";
+    cerr << "listen failed\n";
     return 1;
   }
   
   struct sockaddr_in client_addr;
   int client_addr_len = sizeof(client_addr);
   
-  std::cout << "Waiting for a client to connect...\n";
+  cout << "Waiting for a client to connect...\n";
 
-  for (int i=0; i < 2; i++) {
+  while (true) {
     int client_fd = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
-    send(client_fd, "+PONG\r\n", 7, 0);
-    // ? When pinging 6379 on the browser, why are both loops executed?
+    char ping[100];
+    
+    cout << "\n🤝 Client connected\n";
+
+    while (recv(client_fd, ping, 100, 0) > 0) {
+      cout << ping;
+      send(client_fd, "+PONG\r\n", 7, 0);
+    }
+    
+    cout << "👋 Client disconnected\n";
   }
-  
-  std::cout << "Client connected\n";
   
   close(server_fd);
 
