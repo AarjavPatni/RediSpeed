@@ -12,7 +12,7 @@ RediSpeed is an educational project that seeks to recreate the core functionalit
 
 (Instructions for building and running the project will be added as development progresses)
 
-## Features
+## Milestones
 
 1. **Basic Functionality**
    - [x] ~~Implement a basic TCP server~~
