@@ -8,8 +8,24 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <thread>
+#include <vector>
 
 using namespace std;
+
+void initConnection(int client_fd) {
+  char ping[100];
+
+  cout << "\n🤝 Client " << client_fd << " connected\n";
+
+  while (recv(client_fd, ping, 100, 0) > 0) {
+    cout << ping;
+    send(client_fd, "+PONG\r\n", 7, 0);
+  }
+
+  cout << "👋 Client " << client_fd << " disconnected\n";
+  close(client_fd);
+}
 
 int main(int argc, char **argv) {
   // Flush after every cout / cerr
@@ -49,23 +65,27 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  struct sockaddr_in client_addr;
-  int client_addr_len = sizeof(client_addr);
-
   cout << "Waiting for a client to connect...\n";
 
+  vector<thread> clients;
+
   while (true) {
+    struct sockaddr_in client_addr;
+    int client_addr_len = sizeof(client_addr);
     int client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_addr_len);
-    char ping[100];
 
-    cout << "\n🤝 Client connected\n";
-
-    while (recv(client_fd, ping, 100, 0) > 0) {
-      cout << ping;
-      send(client_fd, "+PONG\r\n", 7, 0);
+    if (client_fd < 0) {
+      cerr << "Failed to accept client connection\n";
+      continue;
     }
 
-    cout << "👋 Client disconnected\n";
+    clients.emplace_back(initConnection, client_fd);
+  }
+
+  for (auto &thread : clients) {
+    if (thread.joinable()) {
+      thread.join();
+    }
   }
 
   close(server_fd);
